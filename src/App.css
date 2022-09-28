@@ -45,5 +45,13 @@ li.nav-item {
 }
 
 .product-title {
-    height: 40px;
+    min-height: 40px;
+}
+
+.product-item.cart .product-title {
+    max-width: 200px;
+}
+
+button.btn.btn-danger {
+    min-width: 152px;
 }

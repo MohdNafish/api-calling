@@ -50,13 +50,16 @@ const ProductList = () => {
                               <div className="product-image">
                                 <img src={productItem.image} style={{width: "100%"}} />
                                 </div>
-                                <h6 className="product-title">{productItem.title}</h6>
+                                <h6 className="product-title mx-auto">{productItem.title}</h6>
                                 <p>{productItem.price}</p>
-                                {cart.includes(productItem) ? (
-                                  <button onClick={()=> setCart(cart.filter((c)=> c.id !== productItem.id))} id={cart.filter((c)=> c.id !== productItem.id)} className="btn btn-secondary">Remove from cart</button>
+                                <p>{productItem.rating.rate}</p>
+                                
+                                {cart.some(c => c.id == productItem.id) ? (
+                                  <button onClick={()=> setCart(cart.filter((c)=> c.id !== productItem.id))} className="btn btn-danger">Remove from cart</button>
                                 ) : 
-                                <button onClick={()=> setCart([...cart, productItem])} className="btn btn-secondary" id={productItem.id}>Add to cart</button>
+                                  <button onClick={()=> setCart([...cart, productItem])} className="btn btn-primary">Add to cart</button>
                                 }
+                                
                             </div>
                         </div>
                     )) : 

@@ -7,11 +7,18 @@ export const Checkout = () => {
 
   const [total, setTotal] = useState()
 
-  const { cart } = useContext(Cart);
+  const { cart, setCart } = useContext(Cart);
+
+  const [quantity, setQuantity] = useState(1);
+
+	const updateQuantity = (id, value) => {
+    cart.map((item) => item.id !== id) &&
+			setQuantity((prevState) => prevState + value);
+	};
 
   useEffect(()=> {
     setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0));
-  }, []);
+  }, [cart]);
 
   return (
     <>
@@ -19,26 +26,26 @@ export const Checkout = () => {
           <div className='row'>
             <div className='col-md-8'>
             {
-              cart.map((prod)=>(
-                <div className="product-item">
-                  <div className="product-image">
+              cart.map((prod, i)=>(
+                <div className="product-item cart d-flex align-items-center justify-content-between">
+                  <div className="product-image h-auto">
                     <img src={prod.image} style={{width: "100%"}} />
                     </div>
-                    <h6 className="product-title">{prod.title}</h6>
-                    <p>{prod.price}</p>
-                    {/* {cart.includes(productItem) ? (
-                      <button onClick={()=> setCart(cart.filter((c)=> c.id !== productItem.id))} className="btn btn-secondary" >Remove from cart</button>
-                    ) : 
-                    <button onClick={()=> setCart([...cart, productItem])} className="btn btn-secondary" >Add to cart</button>
-                    } */}
+                    <h6 className="product-title h-auto mb-0">{prod.title}</h6>
+                    
+                    <button onClick={() => updateQuantity(cart.filter((c)=> c.id !== prod.id), -1)}>-</button>
+                    <p>{quantity}</p>
+                    <button onClick={() => updateQuantity(cart.filter((c)=> c.id !== prod.id), 1)}>+</button>
+
+                    <p className='mb-0'>{prod.price*quantity}</p>
+                    <button onClick={()=> setCart(cart.filter((c)=> c.id !== prod.id))} className="btn btn-danger">Remove from cart</button>
                 </div>
               ))
             }
-              
             </div>
             <div className='col-md-4'>
               <div>
-                <h4>Total Cart Price {total}</h4>
+                <h4>Total Cart Price {(total*quantity).toFixed(2)}</h4>
               </div>
             </div>
           </div>

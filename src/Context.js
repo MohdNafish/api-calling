@@ -9,4 +9,4 @@ export const Context = ({ children }) => {
         {children}
     </Cart.Provider>
   )
-}
+};
